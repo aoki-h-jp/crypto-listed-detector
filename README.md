@@ -5,7 +5,7 @@ Docker Image for detecting cryptocurrency listings. Notify to Discord.
 ## docker
 ```bash
 docker build -t crypto-listed-detector .
-docker run -e DISCORD_WEBHOOK_URL="YOUR_URL" -it --rm crypto-listed-detector 
+docker run -d -e DISCORD_WEBHOOK_URL="YOUR_URL" -it --rm crypto-listed-detector -d
 ```
 
 ## Supported Exchanges
