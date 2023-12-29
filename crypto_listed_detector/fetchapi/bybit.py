@@ -7,6 +7,7 @@ import requests
 
 class BybitFetch:
     _BASE_URL = "https://api.bybit.com"
+
     def __init__(self):
         pass
 

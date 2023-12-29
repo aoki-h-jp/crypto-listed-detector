@@ -18,7 +18,7 @@ class Detector:
         return {
             "bybit": self.bybit.get_all_linear_symbols(),
             "gateio": self.gateio.get_all_linear_symbols(),
-            "mexc": self.mexc.get_all_linear_symbols()
+            "mexc": self.mexc.get_all_linear_symbols(),
         }
 
     def output_all_exchange_symbols(self):

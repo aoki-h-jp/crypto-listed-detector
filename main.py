@@ -1,9 +1,8 @@
 """
 main.py
 """
-import os
 import json
-
+import os
 
 # TODO: logging
 if __name__ == "__main__":
@@ -49,4 +48,3 @@ if __name__ == "__main__":
         print("gateio symbols are different")
         print("new symbols:")
         print(new_gateio_symbols - gateio_symbols)
-

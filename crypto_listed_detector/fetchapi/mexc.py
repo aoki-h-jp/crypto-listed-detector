@@ -7,6 +7,7 @@ import requests
 
 class MexcFetch:
     _BASE_URL = "https://contract.mexc.com"
+
     def __init__(self):
         pass
 

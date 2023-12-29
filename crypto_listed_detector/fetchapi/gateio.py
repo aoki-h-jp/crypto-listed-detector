@@ -7,6 +7,7 @@ import requests
 
 class GateioFetch:
     _BASE_URL = "https://api.gateio.ws"
+
     def __init__(self):
         pass
 
