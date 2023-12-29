@@ -4,7 +4,20 @@ main.py
 import json
 import os
 
+import requests
+
+
+def send_discord_notification(message):
+    webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
+    if webhook_url is None:
+        print("エラー: DISCORD_WEBHOOK_URLが設定されていません。")
+    data = {"content": message}
+    response = requests.post(webhook_url, json=data)
+    response.raise_for_status()
+
+
 # TODO: logging
+# TODO: pytest
 if __name__ == "__main__":
     from crypto_listed_detector.detector import Detector
 
@@ -13,7 +26,7 @@ if __name__ == "__main__":
     if not os.path.exists("symbols.json"):
         detector.output_all_exchange_symbols()
     else:
-        print("symbols.json already exists.")
+        send_discord_notification("symbols.json already exists.")
 
     all_symbols = json.load(open("symbols.json"))
 
@@ -29,22 +42,22 @@ if __name__ == "__main__":
     new_gateio_symbols = set(new_all_symbols["gateio"])
 
     if bybit_symbols == new_bybit_symbols:
-        print("bybit symbols are the same")
+        send_discord_notification("bybit symbols are the same")
     else:
-        print("bybit symbols are different")
-        print("new symbols:")
-        print(new_bybit_symbols - bybit_symbols)
+        send_discord_notification("bybit symbols are different")
+        send_discord_notification("new symbols:")
+        send_discord_notification(new_bybit_symbols - bybit_symbols)
 
     if mexc_symbols == new_mexc_symbols:
-        print("mexc symbols are the same")
+        send_discord_notification("mexc symbols are the same")
     else:
-        print("mexc symbols are different")
-        print("new symbols:")
-        print(new_mexc_symbols - mexc_symbols)
+        send_discord_notification("mexc symbols are different")
+        send_discord_notification("new symbols:")
+        send_discord_notification(new_mexc_symbols - mexc_symbols)
 
     if gateio_symbols == new_gateio_symbols:
-        print("gateio symbols are the same")
+        send_discord_notification("gateio symbols are the same")
     else:
-        print("gateio symbols are different")
-        print("new symbols:")
-        print(new_gateio_symbols - gateio_symbols)
+        send_discord_notification("gateio symbols are different")
+        send_discord_notification("new symbols:")
+        send_discord_notification(new_gateio_symbols - gateio_symbols)
