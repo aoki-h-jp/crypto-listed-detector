@@ -10,9 +10,9 @@ docker run -d -e DISCORD_WEBHOOK_URL="YOUR_URL" -it --rm crypto-listed-detector 
 
 ## Supported Exchanges
 ### CEX
-- [x] Bybit
-- [x] Gate.io
-- [x] MEXC
+- [x] Bybit Futures (USD-M)
+- [x] Gate.io Futures (USD-M)
+- [x] MEXC Futures (USD-M)
 
 ### DEX
 Work in progress...
