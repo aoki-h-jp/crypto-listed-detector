@@ -17,4 +17,6 @@ class PhemexFetch:
         return response.json()
 
     def get_all_linear_symbols(self):
-        return [item["symbol"] for item in self.get_linear_products()["data"]["products"]]
+        return [
+            item["symbol"] for item in self.get_linear_products()["data"]["products"]
+        ]
