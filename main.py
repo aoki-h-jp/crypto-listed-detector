@@ -40,6 +40,7 @@ if __name__ == "__main__":
             gateio_symbols = set(all_symbols["gateio"])
             bitget_symbols = set(all_symbols["bitget"])
             xtcom_symbols = set(all_symbols["xtcom"])
+            pionex_symbols = set(all_symbols["pionex"])
         except KeyError:
             detector.output_all_exchange_symbols()
             bybit_symbols = set(all_symbols["bybit"])
@@ -47,6 +48,7 @@ if __name__ == "__main__":
             gateio_symbols = set(all_symbols["gateio"])
             bitget_symbols = set(all_symbols["bitget"])
             xtcom_symbols = set(all_symbols["xtcom"])
+            pionex_symbols = set(all_symbols["pionex"])
 
         new_all_symbols = detector.get_all_exchange_symbols()
 
@@ -55,6 +57,7 @@ if __name__ == "__main__":
         new_gateio_symbols = set(new_all_symbols["gateio"])
         new_bitget_symbols = set(new_all_symbols["bitget"])
         new_xtcom_symbols = set(new_all_symbols["xtcom"])
+        new_pionex_symbols = set(new_all_symbols["pionex"])
 
         if bybit_symbols == new_bybit_symbols:
             print("bybit symbols are the same")
@@ -115,6 +118,18 @@ if __name__ == "__main__":
                 send_discord_notification("xtcom symbols are changed")
                 send_discord_notification("[LISTED] symbols:")
                 send_discord_notification(new_xtcom_symbols - xtcom_symbols)
+
+        if pionex_symbols == new_pionex_symbols:
+            print("pionex symbols are the same")
+        else:
+            if len(pionex_symbols) > len(new_pionex_symbols):
+                send_discord_notification("pionex symbols are changed")
+                send_discord_notification("[REMOVED] symbols:")
+                send_discord_notification(pionex_symbols - new_pionex_symbols)
+            else:
+                send_discord_notification("pionex symbols are changed")
+                send_discord_notification("[LISTED] symbols:")
+                send_discord_notification(new_pionex_symbols - pionex_symbols)
 
         send_discord_notification("done")
 
