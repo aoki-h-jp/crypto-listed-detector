@@ -8,6 +8,7 @@ from crypto_listed_detector.fetchapi.bybit import BybitFetch
 from crypto_listed_detector.fetchapi.gateio import GateioFetch
 from crypto_listed_detector.fetchapi.mexc import MexcFetch
 from crypto_listed_detector.fetchapi.xtcom import XtcomFetch
+from crypto_listed_detector.fetchapi.pionex import PionexFetch
 
 
 class Detector:
@@ -17,6 +18,7 @@ class Detector:
         self.mexc = MexcFetch()
         self.bitget = BitgetFetch()
         self.xtcom = XtcomFetch()
+        self.pionex = PionexFetch()
 
     def get_all_exchange_symbols(self):
         return {
@@ -25,6 +27,7 @@ class Detector:
             "mexc": self.mexc.get_all_linear_symbols(),
             "bitget": self.bitget.get_all_linear_symbols(),
             "xtcom": self.xtcom.get_all_linear_symbols(),
+            "pionex": self.pionex.get_all_linear_symbols(),
         }
 
     def output_all_exchange_symbols(self):
