@@ -41,6 +41,7 @@ if __name__ == "__main__":
             bitget_symbols = set(all_symbols["bitget"])
             xtcom_symbols = set(all_symbols["xtcom"])
             pionex_symbols = set(all_symbols["pionex"])
+            phemex_symbols = set(all_symbols["phemex"])
         except KeyError:
             detector.output_all_exchange_symbols()
             bybit_symbols = set(all_symbols["bybit"])
@@ -49,6 +50,7 @@ if __name__ == "__main__":
             bitget_symbols = set(all_symbols["bitget"])
             xtcom_symbols = set(all_symbols["xtcom"])
             pionex_symbols = set(all_symbols["pionex"])
+            phemex_symbols = set(all_symbols["phemex"])
 
         new_all_symbols = detector.get_all_exchange_symbols()
 
@@ -58,6 +60,7 @@ if __name__ == "__main__":
         new_bitget_symbols = set(new_all_symbols["bitget"])
         new_xtcom_symbols = set(new_all_symbols["xtcom"])
         new_pionex_symbols = set(new_all_symbols["pionex"])
+        new_phemex_symbols = set(new_all_symbols["phemex"])
 
         if bybit_symbols == new_bybit_symbols:
             print("bybit symbols are the same")
@@ -130,6 +133,18 @@ if __name__ == "__main__":
                 send_discord_notification("pionex symbols are changed")
                 send_discord_notification("[LISTED] symbols:")
                 send_discord_notification(new_pionex_symbols - pionex_symbols)
+
+        if phemex_symbols == new_phemex_symbols:
+            print("phemex symbols are the same")
+        else:
+            if len(phemex_symbols) > len(new_phemex_symbols):
+                send_discord_notification("phemex symbols are changed")
+                send_discord_notification("[REMOVED] symbols:")
+                send_discord_notification(phemex_symbols - new_phemex_symbols)
+            else:
+                send_discord_notification("phemex symbols are changed")
+                send_discord_notification("[LISTED] symbols:")
+                send_discord_notification(new_phemex_symbols - phemex_symbols)
 
         send_discord_notification("done")
 
