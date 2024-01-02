@@ -103,7 +103,7 @@ if __name__ == "__main__":
                 send_discord_notification("bitget symbols are changed")
                 send_discord_notification("[LISTED] symbols:")
                 send_discord_notification(new_bitget_symbols - bitget_symbols)
-                
+
         if xtcom_symbols == new_xtcom_symbols:
             print("xtcom symbols are the same")
         else:
