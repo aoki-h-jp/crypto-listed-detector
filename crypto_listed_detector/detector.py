@@ -3,10 +3,10 @@ crypto-listed-detector
 """
 import json
 
+from crypto_listed_detector.fetchapi.bitget import BitgetFetch
 from crypto_listed_detector.fetchapi.bybit import BybitFetch
 from crypto_listed_detector.fetchapi.gateio import GateioFetch
 from crypto_listed_detector.fetchapi.mexc import MexcFetch
-from crypto_listed_detector.fetchapi.bitget import BitgetFetch
 
 
 class Detector:
