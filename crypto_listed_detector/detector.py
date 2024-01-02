@@ -3,6 +3,7 @@ crypto-listed-detector
 """
 import json
 
+from crypto_listed_detector.fetchapi.bitget import BitgetFetch
 from crypto_listed_detector.fetchapi.bybit import BybitFetch
 from crypto_listed_detector.fetchapi.gateio import GateioFetch
 from crypto_listed_detector.fetchapi.mexc import MexcFetch
@@ -13,12 +14,14 @@ class Detector:
         self.bybit = BybitFetch()
         self.gateio = GateioFetch()
         self.mexc = MexcFetch()
+        self.bitget = BitgetFetch()
 
     def get_all_exchange_symbols(self):
         return {
             "bybit": self.bybit.get_all_linear_symbols(),
             "gateio": self.gateio.get_all_linear_symbols(),
             "mexc": self.mexc.get_all_linear_symbols(),
+            "bitget": self.bitget.get_all_linear_symbols(),
         }
 
     def output_all_exchange_symbols(self):
