@@ -1,21 +1,25 @@
 # crypto-listed-detector
 
-Docker Image for detecting cryptocurrency listings. Notify to Discord.
+- Docker Image for detecting cryptocurrency listings.
+- **This library specialize in future listings**, not spot listings.
+- Notify to Discord.
+- (If you would like to monitor **spot listing**, this site can be helpful: https://cryptocurrencyalerting.com/coin-listing-events.html)
 
 ## docker
 ```bash
 docker build -t crypto-listed-detector .
-docker run -d -e DISCORD_WEBHOOK_URL="YOUR_URL" -it --rm crypto-listed-detector -d
+docker run -d -e DISCORD_WEBHOOK_URL="YOUR_DISCORD_WEBHOOK_URL" -it --rm crypto-listed-detector -d
 ```
 
 ## Supported Exchanges
-### CEX
-- [x] Bybit Futures (USD-M)
-- [x] Gate.io Futures (USD-M)
-- [x] MEXC Futures (USD-M)
-
-### DEX
-Work in progress...
+### CEX (USDT-M)
+- ✅ Bybit Futures
+- ✅ Gate.io Futures
+- ✅ MEXC Futures
+- ✅ Bitget Futures
+- ✅ xt.com Futures
+- ✅ Pionex Futures
+- ✅ Phemex Futures
 
 ## pytest
 Work in progress...
