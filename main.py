@@ -39,12 +39,14 @@ if __name__ == "__main__":
             mexc_symbols = set(all_symbols["mexc"])
             gateio_symbols = set(all_symbols["gateio"])
             bitget_symbols = set(all_symbols["bitget"])
+            xtcom_symbols = set(all_symbols["xtcom"])
         except KeyError:
             detector.output_all_exchange_symbols()
             bybit_symbols = set(all_symbols["bybit"])
             mexc_symbols = set(all_symbols["mexc"])
             gateio_symbols = set(all_symbols["gateio"])
             bitget_symbols = set(all_symbols["bitget"])
+            xtcom_symbols = set(all_symbols["xtcom"])
 
         new_all_symbols = detector.get_all_exchange_symbols()
 
@@ -52,6 +54,7 @@ if __name__ == "__main__":
         new_mexc_symbols = set(new_all_symbols["mexc"])
         new_gateio_symbols = set(new_all_symbols["gateio"])
         new_bitget_symbols = set(new_all_symbols["bitget"])
+        new_xtcom_symbols = set(new_all_symbols["xtcom"])
 
         if bybit_symbols == new_bybit_symbols:
             print("bybit symbols are the same")
@@ -100,6 +103,18 @@ if __name__ == "__main__":
                 send_discord_notification("bitget symbols are changed")
                 send_discord_notification("[LISTED] symbols:")
                 send_discord_notification(new_bitget_symbols - bitget_symbols)
+
+        if xtcom_symbols == new_xtcom_symbols:
+            print("xtcom symbols are the same")
+        else:
+            if len(xtcom_symbols) > len(new_xtcom_symbols):
+                send_discord_notification("xtcom symbols are changed")
+                send_discord_notification("[REMOVED] symbols:")
+                send_discord_notification(xtcom_symbols - new_xtcom_symbols)
+            else:
+                send_discord_notification("xtcom symbols are changed")
+                send_discord_notification("[LISTED] symbols:")
+                send_discord_notification(new_xtcom_symbols - xtcom_symbols)
 
         send_discord_notification("done")
 
