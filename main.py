@@ -1,6 +1,7 @@
 """
 main.py
 """
+
 import json
 import os
 import time
@@ -8,144 +9,75 @@ import time
 import requests
 
 
-def send_discord_notification(message):
+def send_discord_notification(title, description, color=0x00FF00):
+    """
+    Send a styled message to a Discord channel using webhooks.
+    :param title: Title of the embed
+    :param description: Description or content of the message
+    :param color: Color of the embed, in hexadecimal (default green)
+    :return:
+    """
     webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
     if webhook_url is None:
-        print("エラー: DISCORD_WEBHOOK_URLが設定されていません。")
-    data = {"content": str(message)}
+        print("Error: DISCORD_WEBHOOK_URL is not set.")
+        return
+
+    # Create an embed
+    embed = {"title": title, "description": description, "color": color}
+
+    # Prepare the payload
+    data = {"embeds": [embed]}
+
+    # Send the request
     response = requests.post(webhook_url, json=data)
     response.raise_for_status()
 
 
-# TODO: logging
-# TODO: pytest
+def compare_and_notify(current_symbols, new_symbols, exchange_name):
+    """
+    Compare current symbols and new symbols, send notification if changed
+    :param current_symbols: symbols from local file
+    :param new_symbols: symbols from api
+    :param exchange_name: exchange name
+    :return:
+    """
+    if current_symbols != new_symbols:
+        change_type = (
+            "[REMOVED]" if len(current_symbols) > len(new_symbols) else "✅[LISTED]"
+        )
+        diff_symbols = list(
+            current_symbols - new_symbols
+            if change_type == "❌[REMOVED]"
+            else new_symbols - current_symbols
+        )
+        diff_symbols_str = ", ".join(diff_symbols)
+        title = f"{exchange_name} Futures Symbol Update"
+        description = f"{change_type} Symbols: {diff_symbols_str}"
+        color = 0xFF0000 if change_type == "❌[REMOVED]" else 0x00FF00
+
+        send_discord_notification(title, description, color)
+
+
 if __name__ == "__main__":
     from crypto_listed_detector.detector import Detector
 
-    # TODO: cronとかで工夫したい
-    while True:
-        detector = Detector()
+    detector = Detector()
+    symbols_file = "symbols.json"
 
-        if not os.path.exists("symbols.json"):
+    while True:
+        if not os.path.exists(symbols_file):
             detector.output_all_exchange_symbols()
         else:
             print("symbols.json already exists.")
 
-        all_symbols = json.load(open("symbols.json"))
-
-        # compare symbols
-        try:
-            bybit_symbols = set(all_symbols["bybit"])
-            mexc_symbols = set(all_symbols["mexc"])
-            gateio_symbols = set(all_symbols["gateio"])
-            bitget_symbols = set(all_symbols["bitget"])
-            xtcom_symbols = set(all_symbols["xtcom"])
-            pionex_symbols = set(all_symbols["pionex"])
-            phemex_symbols = set(all_symbols["phemex"])
-        except KeyError:
-            detector.output_all_exchange_symbols()
-            bybit_symbols = set(all_symbols["bybit"])
-            mexc_symbols = set(all_symbols["mexc"])
-            gateio_symbols = set(all_symbols["gateio"])
-            bitget_symbols = set(all_symbols["bitget"])
-            xtcom_symbols = set(all_symbols["xtcom"])
-            pionex_symbols = set(all_symbols["pionex"])
-            phemex_symbols = set(all_symbols["phemex"])
+        all_symbols = json.load(open(symbols_file))
 
         new_all_symbols = detector.get_all_exchange_symbols()
 
-        new_bybit_symbols = set(new_all_symbols["bybit"])
-        new_mexc_symbols = set(new_all_symbols["mexc"])
-        new_gateio_symbols = set(new_all_symbols["gateio"])
-        new_bitget_symbols = set(new_all_symbols["bitget"])
-        new_xtcom_symbols = set(new_all_symbols["xtcom"])
-        new_pionex_symbols = set(new_all_symbols["pionex"])
-        new_phemex_symbols = set(new_all_symbols["phemex"])
+        for exchange in all_symbols.keys():
+            current_symbols = set(all_symbols[exchange])
+            new_symbols = set(new_all_symbols[exchange])
+            compare_and_notify(current_symbols, new_symbols, exchange)
 
-        if bybit_symbols == new_bybit_symbols:
-            print("bybit symbols are the same")
-        else:
-            if len(bybit_symbols) > len(new_bybit_symbols):
-                send_discord_notification("bybit symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(bybit_symbols - new_bybit_symbols)
-            else:
-                send_discord_notification("bybit symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_bybit_symbols - bybit_symbols)
-
-        if mexc_symbols == new_mexc_symbols:
-            print("mexc symbols are the same")
-        else:
-            if len(mexc_symbols) > len(new_mexc_symbols):
-                send_discord_notification("mexc symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(mexc_symbols - new_mexc_symbols)
-            else:
-                send_discord_notification("mexc symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_mexc_symbols - mexc_symbols)
-
-        if gateio_symbols == new_gateio_symbols:
-            print("gateio symbols are the same")
-        else:
-            if len(gateio_symbols) > len(new_gateio_symbols):
-                send_discord_notification("gateio symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(gateio_symbols - new_gateio_symbols)
-            else:
-                send_discord_notification("gateio symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_gateio_symbols - gateio_symbols)
-
-        if bitget_symbols == new_bitget_symbols:
-            print("bitget symbols are the same")
-        else:
-            if len(bitget_symbols) > len(new_bitget_symbols):
-                send_discord_notification("bitget symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(bitget_symbols - new_bitget_symbols)
-            else:
-                send_discord_notification("bitget symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_bitget_symbols - bitget_symbols)
-
-        if xtcom_symbols == new_xtcom_symbols:
-            print("xtcom symbols are the same")
-        else:
-            if len(xtcom_symbols) > len(new_xtcom_symbols):
-                send_discord_notification("xtcom symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(xtcom_symbols - new_xtcom_symbols)
-            else:
-                send_discord_notification("xtcom symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_xtcom_symbols - xtcom_symbols)
-
-        if pionex_symbols == new_pionex_symbols:
-            print("pionex symbols are the same")
-        else:
-            if len(pionex_symbols) > len(new_pionex_symbols):
-                send_discord_notification("pionex symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(pionex_symbols - new_pionex_symbols)
-            else:
-                send_discord_notification("pionex symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_pionex_symbols - pionex_symbols)
-
-        if phemex_symbols == new_phemex_symbols:
-            print("phemex symbols are the same")
-        else:
-            if len(phemex_symbols) > len(new_phemex_symbols):
-                send_discord_notification("phemex symbols are changed")
-                send_discord_notification("[REMOVED] symbols:")
-                send_discord_notification(phemex_symbols - new_phemex_symbols)
-            else:
-                send_discord_notification("phemex symbols are changed")
-                send_discord_notification("[LISTED] symbols:")
-                send_discord_notification(new_phemex_symbols - phemex_symbols)
-
-        send_discord_notification("done")
-
+        detector.output_all_exchange_symbols()
         time.sleep(60)
