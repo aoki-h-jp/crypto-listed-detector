@@ -22,6 +22,7 @@ docker run -d -e DISCORD_WEBHOOK_URL="YOUR_DISCORD_WEBHOOK_URL" -it --rm crypto-
 - ✅ Pionex Futures
 - ✅ Phemex Futures
 - ✅ KuCoin Futures
+- ✅ OKX Futures
 
 ## pytest
 Work in progress...
