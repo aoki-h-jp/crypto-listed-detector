@@ -14,6 +14,9 @@ from crypto_listed_detector.fetchapi.xtcom import XtcomFetch
 
 class Detector:
     def __init__(self):
+        """
+        Init all fetchers
+        """
         self.bybit = BybitFetch()
         self.gateio = GateioFetch()
         self.mexc = MexcFetch()
@@ -23,6 +26,10 @@ class Detector:
         self.phemex = PhemexFetch()
 
     def get_all_exchange_symbols(self):
+        """
+        Get all symbols from all exchanges
+        :return:
+        """
         return {
             "bybit": self.bybit.get_all_linear_symbols(),
             "gateio": self.gateio.get_all_linear_symbols(),
@@ -34,6 +41,10 @@ class Detector:
         }
 
     def output_all_exchange_symbols(self):
+        """
+        Output all symbols to symbols.json
+        :return:
+        """
         d = self.get_all_exchange_symbols()
         with open("symbols.json", "w") as f:
             json.dump(d, f)
