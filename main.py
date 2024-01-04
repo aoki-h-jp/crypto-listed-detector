@@ -5,11 +5,11 @@ main.py
 import json
 import os
 import time
+
 import requests
 
 
-
-def send_discord_notification(title, description, color=0x00ff00):
+def send_discord_notification(title, description, color=0x00FF00):
     """
     Send a styled message to a Discord channel using webhooks.
     :param title: Title of the embed
@@ -23,16 +23,10 @@ def send_discord_notification(title, description, color=0x00ff00):
         return
 
     # Create an embed
-    embed = {
-        "title": title,
-        "description": description,
-        "color": color
-    }
+    embed = {"title": title, "description": description, "color": color}
 
     # Prepare the payload
-    data = {
-        "embeds": [embed]
-    }
+    data = {"embeds": [embed]}
 
     # Send the request
     response = requests.post(webhook_url, json=data)
@@ -48,12 +42,18 @@ def compare_and_notify(current_symbols, new_symbols, exchange_name):
     :return:
     """
     if current_symbols != new_symbols:
-        change_type = "[REMOVED]" if len(current_symbols) > len(new_symbols) else "✅[LISTED]"
-        diff_symbols = list(current_symbols - new_symbols if change_type == "❌[REMOVED]" else new_symbols - current_symbols)
-        diff_symbols_str = ', '.join(diff_symbols)
+        change_type = (
+            "[REMOVED]" if len(current_symbols) > len(new_symbols) else "✅[LISTED]"
+        )
+        diff_symbols = list(
+            current_symbols - new_symbols
+            if change_type == "❌[REMOVED]"
+            else new_symbols - current_symbols
+        )
+        diff_symbols_str = ", ".join(diff_symbols)
         title = f"{exchange_name} Futures Symbol Update"
         description = f"{change_type} Symbols: {diff_symbols_str}"
-        color = 0xff0000 if change_type == "❌[REMOVED]" else 0x00ff00
+        color = 0xFF0000 if change_type == "❌[REMOVED]" else 0x00FF00
 
         send_discord_notification(title, description, color)
 
