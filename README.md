@@ -14,12 +14,14 @@ docker run -d -e DISCORD_WEBHOOK_URL="YOUR_DISCORD_WEBHOOK_URL" -it --rm crypto-
 ## Supported Exchanges
 ### CEX (USDT-M)
 - ✅ Bybit Futures
+- ✅ Binance Futures
 - ✅ Gate.io Futures
 - ✅ MEXC Futures
 - ✅ Bitget Futures
 - ✅ xt.com Futures
 - ✅ Pionex Futures
 - ✅ Phemex Futures
+- ✅ KuCoin Futures
 
 ## pytest
 Work in progress...
