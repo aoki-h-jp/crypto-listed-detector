@@ -3,6 +3,7 @@ crypto-listed-detector
 """
 import json
 
+from crypto_listed_detector.fetchapi.binance import BinanceFetch
 from crypto_listed_detector.fetchapi.bitget import BitgetFetch
 from crypto_listed_detector.fetchapi.bybit import BybitFetch
 from crypto_listed_detector.fetchapi.gateio import GateioFetch
@@ -10,7 +11,6 @@ from crypto_listed_detector.fetchapi.mexc import MexcFetch
 from crypto_listed_detector.fetchapi.phemex import PhemexFetch
 from crypto_listed_detector.fetchapi.pionex import PionexFetch
 from crypto_listed_detector.fetchapi.xtcom import XtcomFetch
-from crypto_listed_detector.fetchapi.binance import BinanceFetch
 
 
 class Detector:
