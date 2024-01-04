@@ -12,6 +12,7 @@ from crypto_listed_detector.fetchapi.mexc import MexcFetch
 from crypto_listed_detector.fetchapi.phemex import PhemexFetch
 from crypto_listed_detector.fetchapi.pionex import PionexFetch
 from crypto_listed_detector.fetchapi.xtcom import XtcomFetch
+from crypto_listed_detector.fetchapi.okx import OkxFetch
 
 
 class Detector:
@@ -28,6 +29,7 @@ class Detector:
         self.phemex = PhemexFetch()
         self.binance = BinanceFetch()
         self.kucoin = KucoinFetch()
+        self.okx = OkxFetch()
 
     def get_all_exchange_symbols(self):
         """
@@ -44,6 +46,7 @@ class Detector:
             "phemex": self.phemex.get_all_linear_symbols(),
             "binance": self.binance.get_all_linear_symbols(),
             "kucoin": self.kucoin.get_all_linear_symbols(),
+            "okx": self.okx.get_all_linear_symbols(),
         }
 
     def output_all_exchange_symbols(self):
