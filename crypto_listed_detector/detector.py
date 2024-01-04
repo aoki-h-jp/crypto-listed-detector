@@ -10,6 +10,7 @@ from crypto_listed_detector.fetchapi.mexc import MexcFetch
 from crypto_listed_detector.fetchapi.phemex import PhemexFetch
 from crypto_listed_detector.fetchapi.pionex import PionexFetch
 from crypto_listed_detector.fetchapi.xtcom import XtcomFetch
+from crypto_listed_detector.fetchapi.binance import BinanceFetch
 
 
 class Detector:
@@ -24,6 +25,7 @@ class Detector:
         self.xtcom = XtcomFetch()
         self.pionex = PionexFetch()
         self.phemex = PhemexFetch()
+        self.binance = BinanceFetch()
 
     def get_all_exchange_symbols(self):
         """
@@ -38,6 +40,7 @@ class Detector:
             "xtcom": self.xtcom.get_all_linear_symbols(),
             "pionex": self.pionex.get_all_linear_symbols(),
             "phemex": self.phemex.get_all_linear_symbols(),
+            "binance": self.binance.get_all_linear_symbols(),
         }
 
     def output_all_exchange_symbols(self):
@@ -47,4 +50,4 @@ class Detector:
         """
         d = self.get_all_exchange_symbols()
         with open("symbols.json", "w") as f:
-            json.dump(d, f)
+            json.dump(d, f, indent=4)
